@@ -2,11 +2,11 @@
  * This program retreives login information stored on a local file
  * and saves it to the clipboard.
  * 
- * Paramters: 'site-name'
  * Options: --p  --> prints the login information instead of copying to clipboard
  *          --a  --> adds a new site with provided 'site-name' and creates a new password
  *               --> if a site already exists, prompts the user if he/she wishes to overwrite
- *          --f  --> location that the password file is located at
+ *          -f   --> location that the password file is located at
+ *          -s   --> the name for the site entry. Used to lookup the password
  * Created By: Brad Wilson
  * Version 0.1a
  * Date: April 10th, 2014
@@ -27,6 +27,7 @@ namespace password_keeper
 {
     class passwordKeeper
     {
+        [STAThread]
         static void Main(string[] args)
         {
             //Variables
@@ -88,15 +89,18 @@ namespace password_keeper
                         //c = Console.ReadLine().ElementAt(0);
                     } while (c != "n" && c != "y");
 
-                    //overwrite the appropriate line
-                    if (entryOverwrite(siteName, fileName))
+                    if (c == "y")
                     {
-                        Console.WriteLine(siteName + " added to list.");
-                    }
-                    else
-                    {
-                        Console.WriteLine("Something went wrong trying to add the site");
-                        return;
+                        //overwrite the appropriate line
+                        if (entryOverwrite(siteName, fileName))
+                        {
+                            Console.WriteLine(siteName + " added to list.");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Something went wrong trying to add the site");
+                            return;
+                        }
                     }
                 }
                 else
@@ -118,17 +122,27 @@ namespace password_keeper
             //time to retrieve the login information and display it or copy to clipboard
             String pswd = null;
             string[] lines = File.ReadAllLines(fileName);
-            pswd = lines.First(m => m.Contains(siteName));
+            try
+            {
+                pswd = lines.First(m => m.Contains(siteName));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Could not find an entry with that site name.");
+                return;
+            }
             String[] pswdSplit = pswd.Split(':');
             pswd = pswdSplit[1].Trim();
 
+            //display to user or set to clipboard
             if (print == true)
             {
                 Console.WriteLine(pswd);
             }
             else
             {
-                Clipboard.SetText(pswd);   
+                Clipboard.SetText(pswd);
+                Console.WriteLine("Password saved onto clipboard");
             }
         }
 
@@ -152,7 +166,7 @@ namespace password_keeper
             return false;
         }
 
-        //return true if inserted successfully, false otherwise
+        //creates a new entry containing a site name and an associated password
         private static bool entryInsert(String site, String fileName)
         {
             try
@@ -169,6 +183,7 @@ namespace password_keeper
             return true;
         }
 
+        //Overwrites an existing password with a new one
         private static bool entryOverwrite(String site, String fileName)
         {
             try
@@ -195,6 +210,7 @@ namespace password_keeper
             return true;
         }
 
+        //method to generate a random password
         private static String generatePassword()
         {
             string strPwdchar = "abcdefghijklmnopqrstuvwxyz0123456789#+@&$ABCDEFGHIJKLMNOPQRSTUVWXYZ";
