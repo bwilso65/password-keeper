@@ -52,20 +52,19 @@ namespace password_keeper.Utility
         {
             try
             {
-                //List<String> lines = File.ReadLines(fileName).ToList();
                 List<String> lines = File.ReadAllLines(fileName).ToList<String>();
                 String newLine = null;
                 foreach (String line in lines)
                 {
                     if (line.Contains(site))
                     {
-                        newLine = "\n" + site + " : " + generatePassword() + "\n";
+                        newLine = site + " : " + generatePassword();
                         lines.Remove(line);
                         lines.Add(newLine);
                         break;
                     }
                 }
-                File.WriteAllLines(fileName, lines);
+                File.WriteAllLines(fileName, lines.Where(m=>m.Length>1));
 
             }
             catch (Exception ex)
