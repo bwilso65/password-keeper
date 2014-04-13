@@ -36,7 +36,7 @@ namespace password_keeper
             //checking for empty command lines
             if (args.Length == 0)
             {
-                Console.WriteLine("Arguments cannot be empty...'-s and -f' must be present");
+                Console.WriteLine("Arguments cannot be empty...'-s' and '-f' must be present");
                 //Console.WriteLine("Use with --s {site-name}");
                 return;
             }

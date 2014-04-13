@@ -10,6 +10,8 @@ namespace password_keeper.Utility
 {
     static class Utilities
     {
+        private const int MIN_LENGTH = 90;
+        private const int MAX_LENGTH = 100;
         //return true if site exists, false otherwise
         public static bool entryExists(String site, String fileName)
         {
@@ -99,7 +101,7 @@ namespace password_keeper.Utility
             Random rnd = new Random(seed);
 
             //generate the password
-            for (int i = 0; i <= rnd.Next(12, 18); i++)
+            for (int i = 0; i <= rnd.Next(MIN_LENGTH, MAX_LENGTH); i++)
             {
                 int iRandom = rnd.Next(0, strPwdchar.Length - 1);
                 strPwd += strPwdchar.Substring(iRandom, 1);
