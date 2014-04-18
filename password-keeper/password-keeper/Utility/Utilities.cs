@@ -10,8 +10,8 @@ namespace password_keeper.Utility
 {
     static class Utilities
     {
-        private const int MIN_LENGTH = 90;
-        private const int MAX_LENGTH = 100;
+        private const int MIN_LENGTH = 18;
+        private const int MAX_LENGTH = 22;
         //return true if site exists, false otherwise
         public static bool entryExists(String site, String fileName)
         {
