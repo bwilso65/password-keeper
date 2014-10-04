@@ -1,3 +1,4 @@
+Work in Progress
 password-keeper
 ===============
 
@@ -7,7 +8,7 @@ Randomly generates an alpha-numeric-symbolic password of length between 14 and 1
 When looking up a password, you have the option to copy the password to the clipboard, or to display the password on the console.
 
 Some helpful tips:
-* Store the text file somewhere safe such as an encrypted drive (http://www.truecrypt.org/).
+* Store the text file somewhere safe such as an encrypted drive.
 * Store the text file and program on a flash drive so you have your passwords with you --> Risky if you don't maintain 100% ownership of the drive.
 
 Usage
